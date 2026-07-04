@@ -14,7 +14,9 @@
 #include <atomic>
 #include <chrono>
 #include <cmath>
+#include <cstdio>
 #include <cassert>
+#include <algorithm>
 
 // ---------------------------------------------------------------
 // Standardni plugin dio (ne mijenjati)
@@ -83,11 +85,12 @@ extern "C"
 }
 
 // ---------------------------------------------------------------
-// Mrezni podaci - IEEE Case 9 (MATPOWER standard)
+// Strukture mreznih podataka
 // ---------------------------------------------------------------
 struct BusInit { int id; int type; double pLoad; double qLoad; double pGen; double vSet; }; // type: 3=slack, 2=PV(gen), 1=PQ
 struct LineData { int from; int to; double r; double x; double b; };
 
+// IEEE Case 9 (MATPOWER standard) - ugradjeni podaci u p.u.
 static const BusInit case9Buses[] = {
     {1, 3, 0.00, 0.00, 0.00, 1.040},
     {2, 2, 0.00, 0.00, 1.63, 1.025},
@@ -111,6 +114,65 @@ static const LineData case9Lines[] = {
     {8, 9, 0.0320, 0.1610, 0.306},
     {9, 4, 0.0100, 0.0850, 0.176},
 };
+
+// ---------------------------------------------------------------
+// CSV citaci za case30/118/300 - stvarni MATPOWER podaci
+// (snage u MW -> konverzija u p.u., Sb = 100 MVA)
+// ---------------------------------------------------------------
+static bool readBusesCsv(const std::string& path, std::vector<BusInit>& out)
+{
+    std::ifstream in(path.c_str());
+    if (!in.is_open())
+        return false;
+    std::string line;
+    std::getline(in, line);     // preskoci header (id,type,pLoad,qLoad,pGen,vSet)
+    while (std::getline(in, line))
+    {
+        if (line.size() < 3)
+            continue;
+        int id = 0, tp = 0;
+        double pl = 0, ql = 0, pg = 0, vs = 1.0;
+        if (std::sscanf(line.c_str(), "%d,%d,%lf,%lf,%lf,%lf", &id, &tp, &pl, &ql, &pg, &vs) == 6)
+        {
+            BusInit b;
+            b.id = id;
+            b.type = tp;
+            b.pLoad = pl / 100.0;
+            b.qLoad = ql / 100.0;
+            b.pGen = pg / 100.0;
+            b.vSet = vs;
+            out.push_back(b);
+        }
+    }
+    return !out.empty();
+}
+
+static bool readLinesCsv(const std::string& path, std::vector<LineData>& out)
+{
+    std::ifstream in(path.c_str());
+    if (!in.is_open())
+        return false;
+    std::string line;
+    std::getline(in, line);     // preskoci header (from,to,r,x,b)
+    while (std::getline(in, line))
+    {
+        if (line.size() < 3)
+            continue;
+        int f = 0, t = 0;
+        double r = 0, x = 0, b = 0;
+        if (std::sscanf(line.c_str(), "%d,%d,%lf,%lf,%lf", &f, &t, &r, &x, &b) == 5)
+        {
+            LineData l;
+            l.from = f;
+            l.to = t;
+            l.r = r;
+            l.x = x;
+            l.b = b;
+            out.push_back(l);
+        }
+    }
+    return !out.empty();
+}
 
 // ---------------------------------------------------------------
 // Ybus matrica - koristi natID dense::DblMatrix (obavezan zahtjev)
@@ -229,6 +291,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
     std::atomic<int> progress(0);
     std::atomic<bool> done(false);
     bool success = false;
+    std::string errMsg;
 
     // thread 2: real-time pracenje progresa konverzije
     std::thread progressThread([&progress, &done]()
@@ -242,22 +305,51 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
         {
             progress = 5;
 
-            const int nBus = 9;
-            const int nLines = 9;
-            const BusInit* buses = case9Buses;
-            const LineData* lines = case9Lines;
+            // ---- ucitavanje mreznih podataka (case9 ugradjen, ostali iz CSV) ----
+            std::vector<BusInit> busVec;
+            std::vector<LineData> lineVec;
+
+            if (options.caseNumber == 9)
+            {
+                for (int i = 0; i < 9; ++i) busVec.push_back(case9Buses[i]);
+                for (int i = 0; i < 9; ++i) lineVec.push_back(case9Lines[i]);
+            }
+            else
+            {
+                std::string outStr(outFileName.c_str());
+                size_t slash = outStr.find_last_of("/\\");
+                std::string dir = (slash == std::string::npos) ? std::string("") : outStr.substr(0, slash + 1);
+                std::string bPath = dir + "case" + std::to_string(int(options.caseNumber)) + "_buses.csv";
+                std::string lPath = dir + "case" + std::to_string(int(options.caseNumber)) + "_lines.csv";
+                if (!readBusesCsv(bPath, busVec) || !readLinesCsv(lPath, lineVec))
+                {
+                    errMsg = "ERROR! Cannot read CSV case data (put caseN_buses.csv and caseN_lines.csv next to the output file)";
+                    done = true;
+                    return;
+                }
+            }
+
+            int nBus = 0;
+            for (size_t i = 0; i < busVec.size(); ++i)
+                if (busVec[i].id > nBus)
+                    nBus = busVec[i].id;
+            int nBusRows = int(busVec.size());
+            int nLines = int(lineVec.size());
+            const BusInit* buses = busVec.data();
+            const LineData* lines = lineVec.data();
+            progress = 15;
 
             YbusMatrices ybus;
             buildYbus(ybus, nBus, lines, nLines);
             auto matG = ybus.mG.getManipulator1();
             auto matB = ybus.mB.getManipulator1();
-            progress = 20;
+            progress = 25;
 
-            struct GenInfo { int id; double pGen; double vSet; bool agc; };
+            struct GenInfo { int id; double pGen; double vSet; bool agc; double xdp; };
             std::vector<GenInfo> gens;
             int slackId = 1;
             double slackV = 1.04;
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 if (buses[i].type == 3)
                 {
@@ -272,18 +364,27 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     g.vSet = buses[i].vSet;
                     auto itT = genTypes.find(g.id);
                     g.agc = (itT != genTypes.end() && itT->second == 1);
+                    // Xd' se skalira sa velicinom masine (preracun sa masinske na sistemsku bazu):
+                    // velika masina => manja reaktansa u p.u. na Sb = 100 MVA
+                    g.xdp = options.xdp / std::max(1.0, g.pGen);
                     gens.push_back(g);
                 }
             }
+            if (gens.empty())
+            {
+                errMsg = "ERROR! No PV generators found in case data";
+                done = true;
+                return;
+            }
 
-            // poremecaj za demonstraciju AGC-a: +10% opterecenja na sabirnici s najvecim opterecenjem
+            // poremecaj: +10% opterecenja na prvoj opterecenoj sabirnici (najblizoj slack-u)
+            // -> siguran prenos snage i na velikim mrezama (case118/300)
             int stepBus = -1;
-            double maxLoad = 0.0;
-            for (int i = 0; i < nBus; ++i)
-                if (buses[i].pLoad > maxLoad)
+            for (int i = 0; i < nBusRows; ++i)
+                if (buses[i].pLoad > 0.0)
                 {
-                    maxLoad = buses[i].pLoad;
                     stepBus = buses[i].id;
+                    break;
                 }
             progress = 35;
 
@@ -295,7 +396,6 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     return nullptr;
                 };
 
-            // polarna injekcija aktivne snage u mrezu na sabirnici k (koristi Ybus matricu)
             auto pInj = [&](int k) -> std::string
                 {
                     std::ostringstream os;
@@ -326,7 +426,6 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     os << ")";
                     return os.str();
                 };
-            // polarna injekcija reaktivne snage
             auto qInj = [&](int k) -> std::string
                 {
                     std::ostringstream os;
@@ -362,6 +461,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
             std::ofstream fOut(outFileName.c_str());
             if (!fOut.is_open())
             {
+                errMsg = "ERROR! Cannot open output file";
                 done = true;
                 return;
             }
@@ -376,12 +476,12 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
             fOut << "\tdTime = " << fmtNum(options.dTime) << "\n";
             fOut << "\tendTime = " << fmtNum(options.endTime) << "\n";
             fOut << "end\n";
-            fOut << "//AGC dinamicki model - generisan AGC plugin konvertorom\n";
+            fOut << "//AGC dinamicki model - generisan AGC plugin konvertorom (case " << options.caseNumber << ")\n";
             fOut << "Model [type=DAE domain=real method=RK2 eps=1e-8 name=\"" << options.modelName.c_str() << "\"]:\n";
 
             // ---------------- Vars ----------------
             fOut << "Vars [out=true]:\n";
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 if (buses[i].id == slackId)
                     continue;
@@ -400,14 +500,14 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
             fOut << "\tf0 = 50; oms = 2*pi*f0\n";
             fOut << "\tf = 50 [out=true]\n";
             fOut << "\tth" << slackId << " = 0.0; V" << slackId << " = " << fmtNum(slackV) << "\n";
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 int k = buses[i].id;
                 if (k == slackId)
                     continue;
                 double plMain = buses[i].pLoad;
                 if (k == stepBus)
-                    plMain = buses[i].pLoad * 1.10;   // +10% skok opterecenja (AGC test)
+                    plMain = buses[i].pLoad * 1.10;
                 fOut << "\tPL" << k << " = " << fmtNum(buses[i].pLoad)
                     << "; PLm" << k << " = " << fmtNum(plMain)
                     << "; QL" << k << " = " << fmtNum(buses[i].qLoad) << "\n";
@@ -417,7 +517,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                 int id = gens[g].id;
                 fOut << "\tPg" << id << " = " << fmtNum(gens[g].pGen)
                     << "; Vsp" << id << " = " << fmtNum(gens[g].vSet) << "\n";
-                fOut << "\tEp" << id << "; Xdp" << id << " = " << fmtNum(options.xdp)
+                fOut << "\tEp" << id << "; Xdp" << id << " = " << fmtNum(gens[g].xdp)
                     << "; H" << id << " = " << fmtNum(options.h)
                     << "; D" << id << " = " << fmtNum(options.d) << "\n";
                 if (gens[g].agc)
@@ -437,11 +537,9 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
             progress = 50;
 
             // ---------------- SubModel: inicijalizacija (power flow) ----------------
-            // Kljucni korak po uzoru na profesorov konvertor: PF se rijesi PRVO,
-            // pa se tacni pocetni uslovi prenesu u glavni model preko @main.
             fOut << "SubModel [type=NL name=\"Initialization\" copyPars=-1 eps=1e-8 pivot=\"Diagonal\"]:\n";
             fOut << "Vars [out=true]:\n";
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 if (buses[i].id == slackId)
                     continue;
@@ -455,7 +553,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     << "; Er" << id << "; Ei" << id << "\n";
             }
             fOut << "NLEs:\n";
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 int k = buses[i].id;
                 if (k == slackId)
@@ -463,13 +561,11 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                 const GenInfo* pg = isGenBus(k);
                 if (pg)
                 {
-                    // PV sabirnica: bilans P + fiksni napon
                     fOut << "\t" << pInj(k) << " = Pg" << k << " - PL" << k << "\n";
                     fOut << "\tV" << k << " = Vsp" << k << "\n";
                 }
                 else
                 {
-                    // PQ sabirnica: bilans P i Q
                     fOut << "\t" << pInj(k) << " = -PL" << k << "\n";
                     fOut << "\t" << qInj(k) << " = -QL" << k << "\n";
                 }
@@ -495,7 +591,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     fOut << "\t@main.xI" << id << " = 0.0\n";
                 }
             }
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 int k = buses[i].id;
                 if (k == slackId)
@@ -526,7 +622,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
 
             // ---------------- NLEs (glavni model - sa PLm opterecenjem) ----------------
             fOut << "NLEs:\n";
-            for (int i = 0; i < nBus; ++i)
+            for (int i = 0; i < nBusRows; ++i)
             {
                 int k = buses[i].id;
                 if (k == slackId)
@@ -560,16 +656,26 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
 
             // ---------------- PostProc ----------------
             fOut << "PostProc:\n";
-            if (!gens.empty())
-                fOut << "\tf = f0*omega" << gens[0].id << "\n";
+            int fGen = gens[0].id;
+            for (size_t g = 0; g < gens.size(); ++g)
+                if (gens[g].agc) { fGen = gens[g].id; break; }
+            fOut << "\tf = f0*omega" << fGen << "\n";
             fOut << "end\n";
             fOut.close();
             progress = 85;
 
-            // ---------------- .vmodl (grafike) ----------------
-            std::string outStr(outFileName.c_str());
-            size_t dot = outStr.rfind('.');
-            std::string vPath = (dot == std::string::npos) ? (outStr + ".vmodl") : (outStr.substr(0, dot) + ".vmodl");
+            // ---------------- .vmodl (grafike, max 6 krivih po plotu) ----------------
+            std::vector<int> plotGens;
+            for (size_t g = 0; g < gens.size() && plotGens.size() < 6; ++g)
+                if (gens[g].agc)
+                    plotGens.push_back(gens[g].id);
+            for (size_t g = 0; g < gens.size() && plotGens.size() < 6; ++g)
+                if (!gens[g].agc)
+                    plotGens.push_back(gens[g].id);
+
+            std::string outStr2(outFileName.c_str());
+            size_t dot = outStr2.rfind('.');
+            std::string vPath = (dot == std::string::npos) ? (outStr2 + ".vmodl") : (outStr2.substr(0, dot) + ".vmodl");
             std::ofstream fV(vPath.c_str());
             if (fV.is_open())
             {
@@ -586,14 +692,14 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                 fV << "\tlinePlot [xLabel=\"Time [s]\" yLabel=\"Frequency [Hz]\" name=\"Frekvencija sistema\"]:\n";
                 fV << "\t\thLine@ -> f0 [width=2 pattern=dot name=\"f_ref\" colorL=green colorD=lightGreen minX=0 maxX=" << tEnd << "]\n";
                 fV << "\t\t@x << t\n";
-                for (size_t g = 0; g < gens.size(); ++g)
-                    fV << "\t\t@y << f0*omega" << gens[g].id << " [colorL=" << colsL[g % nc] << " colorD=" << colsD[g % nc] << " width=2 name=\"f gen " << gens[g].id << "\"]\n";
+                for (size_t g = 0; g < plotGens.size(); ++g)
+                    fV << "\t\t@y << f0*omega" << plotGens[g] << " [colorL=" << colsL[g % nc] << " colorD=" << colsD[g % nc] << " width=2 name=\"f gen " << plotGens[g] << "\"]\n";
                 fV << "\t\t@cond -> repeat# == 0\n\tend\n";
 
                 fV << "\tlinePlot [xLabel=\"Time [s]\" yLabel=\"Rotor angle [rad]\" name=\"Uglovi rotora\"]:\n";
                 fV << "\t\t@x << t\n";
-                for (size_t g = 0; g < gens.size(); ++g)
-                    fV << "\t\t@y << delta" << gens[g].id << " [colorL=" << colsL[g % nc] << " colorD=" << colsD[g % nc] << " width=2 name=\"delta " << gens[g].id << "\"]\n";
+                for (size_t g = 0; g < plotGens.size(); ++g)
+                    fV << "\t\t@y << delta" << plotGens[g] << " [colorL=" << colsL[g % nc] << " colorD=" << colsD[g % nc] << " width=2 name=\"delta " << plotGens[g] << "\"]\n";
                 fV << "\t\t@cond -> repeat# == 0\n\tend\n";
 
                 bool anyAgc = false;
@@ -605,7 +711,7 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
                     fV << "\tlinePlot [xLabel=\"Time [s]\" yLabel=\"Power [p.u.]\" name=\"AGC regulacija\"]:\n";
                     fV << "\t\t@x << t\n";
                     int ci = 0;
-                    for (size_t g = 0; g < gens.size(); ++g)
+                    for (size_t g = 0; g < gens.size() && ci < 6; ++g)
                     {
                         if (!gens[g].agc)
                             continue;
@@ -631,7 +737,10 @@ bool createModel(const td::String& inputFileName, const td::String& outFileName,
 
     if (!success)
     {
-        status = "ERROR! Conversion failed (cannot write output file)";
+        if (!errMsg.empty())
+            status = errMsg.c_str();
+        else
+            status = "ERROR! Conversion failed";
         return false;
     }
     status = "OK! AGC model generated (100%)";
