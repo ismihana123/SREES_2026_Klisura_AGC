@@ -1,0 +1,4488 @@
+#LyX 2.5 created this file. For more info see https://www.lyx.org/
+\lyxformat 643
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass book
+\begin_preamble
+\PassOptionsToPackage{croatian}{babel}
+\usepackage{babel}
+\usepackage{multirow}
+
+
+\usepackage{listings}
+\usepackage{chngcntr}% Paket za manipulaciju brojačima
+
+\counterwithout{section}{chapter} % Odvaja sekcije od poglavlja
+\renewcommand{\thesection}{\arabic{section}} % Postavlja format numeracije na 1, 2, 3...
+
+\lstdefinestyle{bashstyle}{
+     backgroundcolor=\color{gray!10},
+     basicstyle=\ttfamily\small,
+     keywordstyle=\bfseries,
+     frame=single,
+     rulecolor=\color{gray!50},
+     breaklines=true,
+     showstringspaces=false,
+     morekeywords={source, export, sudo, roscore, rosrun, roslaunch}
+}
+
+\lstdefinestyle{cppstyle}{
+     backgroundcolor=\color{gray!5},
+     basicstyle=\ttfamily\small,
+     keywordstyle=\bfseries,
+     commentstyle=,
+     stringstyle=,
+     frame=single,
+     rulecolor=\color{gray!50},
+     breaklines=true,
+     showstringspaces=false,
+     language=C++
+}
+
+\usepackage{textcomp}
+\usepackage{gensymb}
+\usepackage{bigstrut}
+\usepackage{amsfonts}
+\usepackage{datetime}
+\usepackage{pgfplots}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\pgfplotsset{compat=1.16}
+\usepackage{makecell}
+\usepackage{nomencl}
+
+
+% Podesavanje izgleda referenci
+\addto\captionscroatian{%
+  \renewcommand{\bibname}{Literatura}
+}
+
+% Podešavanje izgleda naslova sekcije (da izgleda moćno, ali bez nove stranice)
+\titleformat{\section}[hang]
+  {\normalfont\huge\bfseries}{\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{3.5ex plus 1ex minus .2ex}{2.3ex plus .2ex}
+
+% Podešavanje zaglavlja i podnožja (Header & Footer)
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\sectionmark}[1]{\markboth{#1}{}} % Koristimo sectionmark umjesto chaptermark
+\renewcommand{\headrulewidth}{0.4pt}
+\addtolength{\headheight}{15pt}
+
+\fancypagestyle{fancyplain}{%
+  \fancyhf{}
+  \lhead{\nouppercase{\fancyplain{}{\leftmark}}} % Dinamički ispisuje naziv trenutne \section u zaglavlju
+  \renewcommand{\footrulewidth}{0.4pt}
+  \lfoot{\slshape Klisura I., ”AGC (Automatic Generation Control)”}
+  \rfoot{\thepage}
+  \cfoot{}
+}
+
+% Za prve strane sekcija (gdje ne želimo liniju na vrhu)
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \lfoot{\slshape Klisura I., ”AGC (Automatic Generation Control)”}
+  \rfoot{\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+% Iskljucivanje broja strane iz Sadrzaja, Popisa slika i Popisa tabela
+\AtBeginDocument{\addtocontents{toc}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\addtocontents{lof}{\protect\thispagestyle{empty}}}
+\AtBeginDocument{\addtocontents{lot}{\protect\thispagestyle{empty}}}
+
+% Nazivi u "Literatura", "Tabela"...
+\addto\captionscroatian{%
+  \renewcommand{\bibname}{Literatura}
+  \renewcommand{\tablename}{Tabela}
+  \renewcommand{\nomname}{Popis oznaka}
+  \renewcommand{\indexname}{Indeks pojmova}
+  \renewcommand{\lstlistingname}{Program}
+}
+\addto\captionscroatian{\renewcommand{\listtablename}{Popis tabela}}
+\end_preamble
+\use_default_options false
+\begin_modules
+enumitem
+\end_modules
+\maintain_unincluded_children no
+\language croatian
+\language_package default
+\inputencoding utf8
+\fontencoding default
+\font_roman "lmodern" "default"
+\font_sans "default" "default"
+\font_typewriter "lmodern" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks false
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle false
+\papersize a4
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 2
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine natbib
+\cite_engine_type numerical
+\biblio_style plainnat
+\biblio_options square,sort
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\crossref_package prettyref
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\backgroundcolor none
+\fontcolor none
+\notefontcolor lightgray
+\boxbgcolor red
+\table_border_color default
+\table_odd_row_color default
+\table_even_row_color default
+\table_alt_row_colors_start 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style polish
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes false
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\docbook_mathml_version 0
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+\backslash
+begin{titlepage} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+begin{center}
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Univerzitet u Sarajevu
+\backslash
+
+\backslash
+[0.2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Elektrotehnički fakultet
+\backslash
+
+\backslash
+[0.2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Odsjek za automatiku i elektroniku
+\backslash
+
+\backslash
+[0.2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Strukture i režimi rada elektroenergetskih sistema
+\backslash
+
+\backslash
+[0.2cm] 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+large Akademska 2025/26.
+ godina
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+vfill % Automatski gura naslov na sredinu
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+hrule
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+vspace{0.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+    {
+\backslash
+huge 
+\backslash
+bfseries AGC (Automatic Generation Control)} 
+\backslash
+
+\backslash
+[0.4cm] 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+hrule 
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+vspace{0.4cm}
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Seminarski rad 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+vfill % Automatski gura ime studentice prema dnu
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Studentica:
+ 
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+Large Ismihana Klisura
+\backslash
+
+\backslash
+
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    
+\backslash
+vfill % Gura lokaciju i datum na sam kraj stranice
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\begin_layout Plain Layout
+    {
+\backslash
+large Sarajevo,
+ juli 2026.}
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+end{center} 
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+end{titlepage}
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+clearpage % Osigurava da sve nakon naslovne ide na novu stranicu
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+frontmatter 
+\end_layout
+
+\begin_layout Plain Layout
+
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Sažetak
+\end_layout
+
+\begin_layout Standard
+U radu je predstavljen razvoj dinamičkog konvertora koji statičke podatke elektroenergetske mreže automatski pretvara u dinamičke modele sa AGC (
+\emph on
+Automatic Generation Control
+\emph default
+) regulacijom frekvencije,
+ pogodne za vremensku simulaciju u dTwin okruženju.
+ Konvertor je realizovan u C++ kao plugin (dinamička biblioteka) sa grafičkim interfejsom u natID biblioteci.
+ Kroz XML konfiguracijski fajl korisnik navodi brojeve generatora koji dobijaju AGC model (primarna droop regulacija,
+ sekundarna integralna regulacija,
+ turbinski governor i limiter snage),
+ dok svi ostali generatori dobijaju standardni model bez regulacije.
+ Konverzija se izvršava u zasebnom threadu uz indikator napretka u drugom threadu,
+ a admitansna matrica mreže realizovana je natID dense matricama.
+ Numerička robusnost postignuta je inicijalizacijskim podmodelom koji rješava tokove snaga i dinamičku simulaciju pokreće iz tačne ravnotežne tačke.
+ Ispravnost rješenja demonstrirana je simulacijom skoka opterećenja:
+ na sistemima Case
+\begin_inset space ~
+\end_inset
+
+9,
+ Case
+\begin_inset space ~
+\end_inset
+
+30 i Case
+\begin_inset space ~
+\end_inset
+
+118 frekvencija se nakon propada i prigušenih oscilacija vraća tačno na nominalnih 50
+\begin_inset space ~
+\end_inset
+
+Hz,
+ čime je potvrđeno ispravno djelovanje sekundarne regulacije.
+ Za Case
+\begin_inset space ~
+\end_inset
+
+300 konverzija je uspješna,
+ a simulacija je identifikovana kao ograničenje klasičnog modela generatora u mrežama sa ekstremnim naponskim profilom.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.3cm
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+noindent
+\end_layout
+
+\end_inset
+
+
+\series bold
+Ključne riječi:
+
+\series default
+ AGC,
+ sekundarna regulacija frekvencije,
+ droop regulacija,
+ dinamički konvertor,
+ MATPOWER,
+ dTwin,
+ natID,
+ C++ plugin,
+ tokovi snaga,
+ sinhroni generator
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.8cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
+Abstract
+\end_layout
+
+\begin_layout Standard
+This paper presents the development of a dynamic converter that automatically transforms static power system data into dynamic models with AGC (Automatic Generation Control) frequency regulation,
+ suitable for time-domain simulation in the dTwin environment.
+ The converter is implemented in C++ as a plugin (dynamic library) with a graphical user interface built on the natID library.
+ Through an XML configuration file,
+ the user specifies the numbers of generators that receive the AGC model (primary droop control,
+ secondary integral control,
+ turbine governor,
+ and power limiter),
+ while all remaining generators receive a standard model without regulation.
+ The conversion runs in a separate thread with a real-time progress indicator in a second thread,
+ and the network admittance matrix is built using natID dense matrices.
+ Numerical robustness is achieved through an initialization submodel that solves the power flow problem and starts the dynamic simulation from an exact equilibrium point.
+ The correctness of the solution is demonstrated by simulating a load step:
+ on Case
+\begin_inset space ~
+\end_inset
+
+9,
+ Case
+\begin_inset space ~
+\end_inset
+
+30,
+ and Case
+\begin_inset space ~
+\end_inset
+
+118,
+ the system frequency,
+ after a dip and damped oscillations,
+ returns exactly to the nominal 50
+\begin_inset space ~
+\end_inset
+
+Hz,
+ confirming the correct operation of secondary frequency control.
+ For Case
+\begin_inset space ~
+\end_inset
+
+300,
+ the conversion completes successfully,
+ while the simulation is identified as a limitation of the classical generator model in networks with an extreme voltage profile.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.3cm
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+noindent
+\end_layout
+
+\end_inset
+
+
+\series bold
+Keywords:
+
+\series default
+ AGC,
+ secondary frequency control,
+ droop control,
+ dynamic converter,
+ MATPOWER,
+ dTwin,
+ natID,
+ C++ plugin,
+ power flow,
+ synchronous generator
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+newpage
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset FloatList figure
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+addcontentsline{toc}{chapter}{Popis slika}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+pagestyle
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+fancyplain
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% puts headers/footers back on
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%
+\backslash
+mainmatter
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Opis projekta
+\end_layout
+
+\begin_layout Standard
+Stabilnost frekvencije jedan je od temeljnih zahtjeva pouzdanog rada elektroenergetskog sistema.
+ Frekvencija sistema direktno odražava balans između proizvedene i potrošene aktivne snage:
+ svaki višak potrošnje usporava rotore sinhronih generatora i obara frekvenciju,
+ dok višak proizvodnje frekvenciju podiže.
+ Kako se opterećenje mreže neprestano mijenja,
+ potreban je automatski mehanizam koji proizvodnju kontinuirano prilagođava potrošnji i frekvenciju drži na nominalnoj vrijednosti od 50
+\begin_inset space ~
+\end_inset
+
+Hz.
+\end_layout
+
+\begin_layout Standard
+Taj mehanizam ostvaruje se kroz dva hijerarhijska nivoa regulacije.
+ Primarna regulacija (statizam,
+ engl.
+ 
+\emph on
+droop
+\emph default
+) je brza,
+ proporcionalna reakcija turbinskih regulatora na odstupanje brzine rotora – ona zaustavlja propad frekvencije,
+ ali po svojoj prirodi ostavlja trajno odstupanje od nominalne vrijednosti.
+ Sekundarna regulacija,
+ poznata kao AGC (
+\emph on
+Automatic Generation Control
+\emph default
+),
+ integralnim djelovanjem pomjera referentnu snagu odabranih agregata sve dok se frekvencija ne vrati tačno na nominalnu vrijednost.
+ AGC tematika obrađena je u ovom projektu.
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset Newline newline
+\end_inset
+
+Cilj projekta je razvoj dinamičkog konvertora koji statičke podatke elektroenergetske mreže (MATPOWER testni slučajevi 
+\family typewriter
+case9
+\family default
+,
+ 
+\family typewriter
+case30
+\family default
+,
+ 
+\family typewriter
+case118
+\family default
+ i 
+\family typewriter
+case300
+\family default
+) automatski pretvara u dinamički model pogodan za vremensku simulaciju u dTwin okruženju.
+ Konvertor je projektovan tako da,
+ prema zahtjevima teme,
+ ispunjava sljedeće stavke:
+ 
+\end_layout
+
+\begin_layout Itemize
+realizovan je u C++ kao plugin u formi dinamičke biblioteke (dll) koju dTwin učitava,
+ 
+\end_layout
+
+\begin_layout Itemize
+posjeduje grafički korisnički interfejs razvijen u natID biblioteci,
+ 
+\end_layout
+
+\begin_layout Itemize
+kroz XML konfiguracijski fajl korisnik navodi brojeve generatora koji dobijaju AGC model regulacije,
+ dok svi ostali generatori dobijaju standardni model bez regulacije,
+ 
+\end_layout
+
+\begin_layout Itemize
+konverzija se izvršava u zasebnom threadu,
+ dok drugi thread u realnom vremenu prati napredak konverzije,
+ 
+\end_layout
+
+\begin_layout Itemize
+sve matrice (admitansna matrica mreže) realizovane su korištenjem natID dense matrica,
+ 
+\end_layout
+
+\begin_layout Itemize
+konvertor je testiran na sva četiri zadana testna slučaja.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% [OVDJE UBACI OpenDraw DIJAGRAM ARHITEKTURE - blok šema toka podataka]
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename arhitektura.png
+	width 90text%
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:arhitektura"
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Arhitektura AGC dinamičkog konvertora
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Na slici
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:arhitektura"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ prikazan je tok podataka kroz konvertor.
+ Ulaze čine dva izvora:
+ XML konfiguracijski fajl,
+ kojim korisnik po broju sabirnice navodi generatore koji dobijaju AGC model regulacije (svi nenavedeni dobijaju standardni model),
+ i CSV fajlovi sa statičkim mrežnim podacima – sabirnicama (tip,
+ opterećenje 
+\begin_inset Formula $P_{L}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $Q_{L}$
+\end_inset
+
+ u MW/MVAr,
+ proizvodnja 
+\begin_inset Formula $P_{g}$
+\end_inset
+
+ u MW,
+ zadani napon 
+\begin_inset Formula $V^{sp}$
+\end_inset
+
+ u p.u.) i granama (otpor 
+\begin_inset Formula $R$
+\end_inset
+
+,
+ reaktansa 
+\begin_inset Formula $X$
+\end_inset
+
+ i šant susceptansa 
+\begin_inset Formula $B^{sh}$
+\end_inset
+
+ u p.u.);
+ podaci mreže case9 ugrađeni su direktno u konvertor.
+ Centralni blok je AGC plugin (
+\family typewriter
+agc.dll
+\family default
+) sa natID grafičkim interfejsom,
+ unutar kojeg se obrada odvija u dvije niti:
+ nit
+\begin_inset space ~
+\end_inset
+
+1 izvršava kompletnu konverziju (parsiranje ulaza,
+ formiranje 
+\begin_inset Formula $Y_{bus}$
+\end_inset
+
+ matrice natID dense strukturama,
+ generisanje jednačina modela),
+ dok nit
+\begin_inset space ~
+\end_inset
+
+2 u realnom vremenu prati napredak konverzije preko atomarnog brojača.
+ Izlaz konverzije su dva fajla:
+ 
+\family typewriter
+.dmodl
+\family default
+ sa kompletnim dinamičkim DAE modelom (varijable,
+ parametri,
+ inicijalizacijski podmodel,
+ diferencijalne i algebarske jednačine) i 
+\family typewriter
+.vmodl
+\family default
+ sa definicijama grafika.
+ Oba fajla preuzima dTwin,
+ koji model rješava (
+\emph on
+Solve
+\emph default
+) i rezultate prikazuje (
+\emph on
+Plot
+\emph default
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Elementi arhitekture konvertora
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="3">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Element
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Uloga
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Format / veličine
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+XML konfiguracija 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+izbor AGC generatora po broju 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+id
+\family default
+,
+ 
+\family typewriter
+type
+\family default
+ (0/1) 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+CSV podaci 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+statički podaci mreže 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{L},Q_{L},P_{g}$
+\end_inset
+
+ [MW],
+ 
+\begin_inset Formula $V^{sp}$
+\end_inset
+
+ [p.u.],
+ 
+\begin_inset Formula $R,X,B^{sh}$
+\end_inset
+
+ [p.u.] 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thread 1 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+konverzija (parser,
+ 
+\begin_inset Formula $Y_{bus}$
+\end_inset
+
+,
+ model) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $Y_{bus}=G+jB$
+\end_inset
+
+ [p.u.],
+ 
+\begin_inset Formula $S_{b}=100$
+\end_inset
+
+ MVA 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Thread 2 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+indikator napretka 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+progres 0–100 % 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+.dmodl
+\family default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dinamički DAE model 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ODE + NLE jednačine 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+.vmodl
+\family default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+definicije grafika 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $f$
+\end_inset
+
+ [Hz],
+ 
+\begin_inset Formula $\delta$
+\end_inset
+
+ [rad],
+ 
+\begin_inset Formula $P_{m}$
+\end_inset
+
+ [p.u.] 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+dTwin 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+solver i vizualizacija 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RK2,
+ 
+\begin_inset Formula $\Delta t=1$
+\end_inset
+
+ ms 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% ============ 2.
+ MATEMATIČKI MODEL ============
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Matematički model
+\end_layout
+
+\begin_layout Subsection
+Klasični model sinhronog generatora
+\end_layout
+
+\begin_layout Standard
+Svaki generator predstavljen je klasičnim modelom:
+ konstantna elektromotorna sila 
+\begin_inset Formula $E'$
+\end_inset
+
+ iza tranzijentne reaktanse 
+\begin_inset Formula $X_{d}'$
+\end_inset
+
+.
+ Dinamiku rotora opisuje jednačina njihanja (engl.
+ 
+\emph on
+swing
+\emph default
+ equation):
+ 
+\begin_inset Formula 
+\begin{align}
+\frac{d\delta}{dt} & =(\omega-1)\,\omega_{s}\label{eq:swing_delta}\\[5pt]
+\frac{d\omega}{dt} & =\frac{\omega_{s}}{2H}\Big(P_{m}-P_{e}-D\,(\omega-1)\Big)\label{eq:swing_omega}
+\end{align}
+
+\end_inset
+
+gdje su:
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Argument 1
+status collapsed
+
+\begin_layout Plain Layout
+label=
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{}
+\end_layout
+
+\end_inset
+
+,
+ leftmargin=1em,
+ itemsep=0pt
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\delta$
+\end_inset
+
+ – ugao rotora [rad],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\omega$
+\end_inset
+
+ – relativna brzina rotora [p.u.],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\omega_{s}=2\pi f_{0}$
+\end_inset
+
+ – sinhronska kružna frekvencija [rad/s],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $H$
+\end_inset
+
+ – konstanta inercije [s],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $D$
+\end_inset
+
+ – koeficijent prigušenja [p.u.],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P_{m}$
+\end_inset
+
+ – mehanička snaga [p.u.],
+ 
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $P_{e}$
+\end_inset
+
+ – električna snaga [p.u.].
+ 
+\end_layout
+
+\begin_layout Standard
+\noindent
+Električna snaga koju mašina predaje mreži,
+ u polarnim koordinatama napona sabirnice 
+\begin_inset Formula $V\angle\theta$
+\end_inset
+
+,
+ iznosi:
+ 
+\begin_inset Formula 
+\begin{equation}
+P_{e}=\frac{E'V}{X_{d}'}\sin(\delta-\theta)\label{eq:pe}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Primarna i sekundarna (AGC) regulacija frekvencije
+\end_layout
+
+\begin_layout Standard
+Generatori označeni u XML konfiguraciji kao AGC tip dobijaju model turbinskog regulatora sa primarnom i sekundarnom petljom:
+ 
+\begin_inset Formula 
+\begin{align}
+\frac{dx_{I}}{dt} & =K_{i}\,(1-\omega)\label{eq:integrator}\\[2pt]
+\frac{dP_{m}}{dt} & =\frac{1}{T_{gov}}\Big(P_{ref}+K_{p}(1-\omega)+x_{I}-P_{m}\Big)\label{eq:governor}\\[2pt]
+P^{lim}_{m} & =\mathrm{lim}\big(P_{m},\,P_{min},\,P_{max}\big)\label{eq:limiter}
+\end{align}
+
+\end_inset
+
+Član 
+\begin_inset Formula $K_{p}(1-\omega)$
+\end_inset
+
+ predstavlja primarnu (droop) regulaciju sa statizmom 
+\begin_inset Formula $R=1/K_{p}$
+\end_inset
+
+;
+ integrator 
+\begin_inset Formula $x_{I}$
+\end_inset
+
+ (jednačina
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:integrator"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+) je sekundarna regulacija koja eliminiše trajno odstupanje frekvencije;
+ 
+\begin_inset Formula $T_{gov}$
+\end_inset
+
+ je vremenska konstanta turbine/governora,
+ a limiter (jednačina
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:limiter"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+) modeluje fizička ograničenja snage agregata.
+ U jednačini njihanja AGC generatora umjesto 
+\begin_inset Formula $P_{m}$
+\end_inset
+
+ figuriše ograničena vrijednost 
+\begin_inset Formula $P^{lim}_{m}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename agc_blok.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Blok šema AGC regulacije jednog generatora:
+ paralelno djelovanje primarne (droop) i sekundarne (integralne) petlje,
+ dinamika governora sa limiterom snage i povratna sprega preko jednačine njihanja
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:agcblok"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+Slika
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:agcblok"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ prikazuje regulacionu petlju AGC generatora,
+ direktno odgovarajuću jednačinama
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:integrator"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+–
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:limiter"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+.
+ Ulazni signal je odstupanje brzine rotora 
+\begin_inset Formula $\Delta\omega=1-\omega$
+\end_inset
+
+ [p.u.];
+ pri padu frekvencije (
+\begin_inset Formula $\omega<1$
+\end_inset
+
+) signal je pozitivan i regulacija povećava snagu.
+ Signal se paralelno vodi u dvije grane:
+ proporcionalnu granu 
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ (primarna,
+ droop regulacija sa statizmom 
+\begin_inset Formula $R=1/K_{p}$
+\end_inset
+
+;
+ u projektu 
+\begin_inset Formula $K_{p}=20$
+\end_inset
+
+,
+ tj.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $R=5\,\%$
+\end_inset
+
+),
+ koja reaguje trenutno ali ostavlja trajno odstupanje,
+ i integralnu granu 
+\begin_inset Formula $K_{i}/s$
+\end_inset
+
+ (sekundarna regulacija,
+ AGC;
+ 
+\begin_inset Formula $K_{i}=5$
+\end_inset
+
+),
+ koja akumulira grešku frekvencije i eliminiše trajno odstupanje.
+ Obje grane se u sumatoru sabiraju sa referentnom snagom 
+\begin_inset Formula $P_{ref}$
+\end_inset
+
+ [p.u.] (radna tačka iz tokova snaga),
+ a rezultat prolazi kroz dinamiku governora i turbine,
+ modelovanu prenosnom funkcijom prvog reda 
+\begin_inset Formula $1/(1+sT_{gov})$
+\end_inset
+
+ sa vremenskom konstantom 
+\begin_inset Formula $T_{gov}=0{,}5$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+s.
+ Limiter ograničava mehaničku snagu na fizički opseg agregata 
+\begin_inset Formula $[P_{min},P_{max}]$
+\end_inset
+
+ [p.u.].
+ Ograničena snaga 
+\begin_inset Formula $P^{lim}_{m}$
+\end_inset
+
+ ulazi u njihajnu jednačinu (parametri:
+ inercija 
+\begin_inset Formula $H=5$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+s,
+ prigušenje 
+\begin_inset Formula $D$
+\end_inset
+
+),
+ čiji je izlaz brzina rotora 
+\begin_inset Formula $\omega$
+\end_inset
+
+ – zatvarajući povratnu spregu na ulaz.
+ U stacionarnom stanju integrator namješta 
+\begin_inset Formula $x_{I}$
+\end_inset
+
+ tačno toliko da bude 
+\begin_inset Formula $\omega=1$
+\end_inset
+
+,
+ tj.
+\begin_inset space \space{}
+\end_inset
+
+
+\begin_inset Formula $f=50$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+Hz,
+ što je suština sekundarne regulacije.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Signali i blokovi AGC regulacione petlje
+\end_layout
+
+\end_inset
+
+
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="4">
+<features tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Signal/blok
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Značenje
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Jedinica
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Vrijednost
+\series default
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\Delta\omega=1-\omega$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+odstupanje brzine rotora 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p.u.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ulaz 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{p}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+droop pojačanje (primarna),
+ 
+\begin_inset Formula $R=1/K_{p}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+– 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20 (
+\begin_inset Formula $R=5\,\%$
+\end_inset
+
+) 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{i}/s$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+integrator (sekundarna,
+ AGC) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1/s 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $K_{i}=5$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P_{ref}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+referentna snaga (iz tokova snaga) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p.u.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $=P_{g}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $1/(1+sT_{gov})$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+governor/turbina,
+ 1.
+\begin_inset space \space{}
+\end_inset
+
+red 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+– 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $T_{gov}=0{,}5$
+\end_inset
+
+ s 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[P_{min},P_{max}]$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+granice snage agregata 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p.u.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $[0,\ 3]$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $P^{lim}_{m}$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ograničena mehanička snaga 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p.u.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+izlaz regulatora 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2H$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+inercija i prigušenje (njihajna jed.) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+s,
+ – 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $H=5$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D=0{,}5$
+\end_inset
+
+–
+\begin_inset Formula $2$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\omega$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+brzina rotora (
+\begin_inset Formula $f=f_{0}\,\omega$
+\end_inset
+
+) 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+p.u.
+ 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+povratna sprega 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+Standardni generatori
+\series default
+ (svi koji nisu navedeni u XML-u) nemaju regulaciju:
+ njihova mehanička snaga je konstantan parametar 
+\begin_inset Formula $P_{m}=P_{ref}$
+\end_inset
+
+,
+ pa na poremećaj reaguju samo inercijom i prigušenjem.
+\end_layout
+
+\begin_layout Subsection
+Mrežne jednačine
+\end_layout
+
+\begin_layout Standard
+Mreža je opisana admitansnom matricom 
+\begin_inset Formula $Y_{bus}=G+jB$
+\end_inset
+
+ koja se formira iz podataka o granama:
+ 
+\begin_inset Formula 
+\begin{equation}
+Y_{ij}=-\frac{1}{R_{ij}+jX_{ij}}=G_{ij}+jB_{ij},\quad i\neq j,\qquad Y_{ii}=\sum_{j\in\mathcal{N}(i)}\left(\frac{1}{R_{ij}+jX_{ij}}+j\frac{B^{sh}_{ij}}{2}\right)\label{eq:ybus}
+\end{equation}
+
+\end_inset
+
+Bilansi aktivne i reaktivne snage na svakoj sabirnici 
+\begin_inset Formula $k$
+\end_inset
+
+ (osim referentne) formulisani su u polarnim koordinatama:
+ 
+\begin_inset Formula 
+\begin{align}
+V_{k}\sum_{m}V_{m}\big(G_{km}\cos\theta_{km}+B_{km}\sin\theta_{km}\big) & =P^{inj}_{k}\label{eq:pbalance}\\
+V_{k}\sum_{m}V_{m}\big(G_{km}\sin\theta_{km}-B_{km}\cos\theta_{km}\big) & =Q^{inj}_{k},\qquad\theta_{km}=\theta_{k}-\theta_{m}\label{eq:qbalance}
+\end{align}
+
+\end_inset
+
+Na generatorskim sabirnicama injekcija uključuje snagu mašine (jednačina
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pe"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ i odgovarajući izraz za 
+\begin_inset Formula $Q_{e}$
+\end_inset
+
+),
+ umanjenu za lokalno opterećenje;
+ na potrošačkim sabirnicama injekcija je jednaka negativnom opterećenju.
+ Referentna (slack) sabirnica ima fiksan napon i ugao te predstavlja beskonačnu sabirnicu.
+\end_layout
+
+\begin_layout Subsection
+Inicijalizacija dinamičkog modela
+\end_layout
+
+\begin_layout Standard
+Dinamička simulacija mora krenuti iz ravnotežne tačke jer u suprotnom neuravnoteženi početni uslovi generišu vještački poremećaj koji može odvesti sistem u numeričku divergenciju.
+ Zbog toga generisani model sadrži inicijalizacijski podmodel (
+\family typewriter
+SubModel
+\family default
+ tipa NL) koji se rješava prije glavne DAE simulacije:
+ 
+\end_layout
+
+\begin_layout Enumerate
+rješavaju se tokovi snaga mreže (jednačine
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pbalance"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ i
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:qbalance"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ uz 
+\begin_inset Formula $V_{k}=V^{sp}_{k}$
+\end_inset
+
+ na PV sabirnicama),
+ 
+\end_layout
+
+\begin_layout Enumerate
+iz rješenja tokova snaga računaju se tačni početni uslovi svake mašine:
+ 
+\begin_inset Formula 
+\begin{equation}
+\bar{I}=\left(\frac{P+jQ}{\bar{V}}\right)^{\!*},\qquad\bar{E}'=\bar{V}+jX_{d}'\,\bar{I},\qquad\delta_{0}=\angle\bar{E}',\quad E'=|\bar{E}'|\label{eq:init}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+početne vrijednosti se prenose u glavni model (
+\family typewriter
+@main.
+
+\family default
+ mehanizmom dTwin jezika),
+ uz 
+\begin_inset Formula $\omega_{0}=1$
+\end_inset
+
+,
+ 
+\begin_inset Formula $P_{m,0}=P_{ref}=P_{g}$
+\end_inset
+
+ i 
+\begin_inset Formula $x_{I,0}=0$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Reaktivna snaga mašine pri inicijalizaciji ograničava se odozdo na 
+\begin_inset Formula $Q\geq0{,}1\,P_{g}$
+\end_inset
+
+ (limiter minimalne pobude,
+ engl.
+ 
+\emph on
+under-excitation limiter
+\emph default
+),
+ čime se sprječava inicijalizacija mašine u podpobuđenom režimu na granici statičke stabilnosti.
+\end_layout
+
+\begin_layout Subsection
+Preračun reaktanse na sistemsku bazu
+\end_layout
+
+\begin_layout Standard
+Tranzijentna reaktansa 
+\begin_inset Formula $X_{d}'$
+\end_inset
+
+ zadaje se na mašinskoj bazi,
+ a preračunava na sistemsku bazu 
+\begin_inset Formula $S_{b}=100$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+MVA:
+ 
+\begin_inset Formula 
+\begin{equation}
+X_{d}'^{(sys)}=\frac{X_{d}'}{\max(1,\,P_{g})}\label{eq:xdp}
+\end{equation}
+
+\end_inset
+
+Veće mašine time dobijaju srazmjerno manju reaktansu u sistemskim p.u.
+ jedinicama.
+ Bez ovog preračuna veliki agregati u 
+\family typewriter
+case118
+\family default
+ i 
+\family typewriter
+case300
+\family default
+ (do 1973
+\begin_inset space ~
+\end_inset
+
+MW) ne bi mogli raditi unutar granice statičke stabilnosti (
+\begin_inset Formula $\delta-\theta<90^{\circ}$
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% ============ 3.
+ IMPLEMENTACIJA ============
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Implementacija
+\end_layout
+
+\begin_layout Subsection
+Arhitektura plugina
+\end_layout
+
+\begin_layout Standard
+Implementacija je realizirana kao C++ plugin (dinamička biblioteka 
+\family typewriter
+agc.dll
+\family default
+) za dTwin okruženje,
+ korištenjem natID SDK.
+ Plugin implementira 
+\family typewriter
+sc::IPlugin
+\family default
+ interfejs i izvozi C funkciju 
+\family typewriter
+getPluginInterface()
+\family default
+ preko koje ga dTwin učitava iz foldera 
+\family typewriter
+res/plugins
+\family default
+ i prikazuje u meniju 
+\family typewriter
+Model 
+\begin_inset Formula $\rightarrow$
+\end_inset
+
+ Import
+\family default
+ pod imenom 
+\emph on
+AGC Dynamic Converter
+\emph default
+.
+ Glavne komponente su:
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+AGCPlugin.cpp/.h
+\family default
+ – logika konverzije:
+ čitanje XML konfiguracije i CSV mrežnih podataka,
+ sastavljanje Ybus matrice,
+ generisanje 
+\family typewriter
+.dmodl
+\family default
+ (dinamički model) i 
+\family typewriter
+.vmodl
+\family default
+ (definicija grafika) fajlova,
+ višenitno izvršavanje;
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+ViewConv.h
+\family default
+ – GUI tab 
+\emph on
+Converter
+\emph default
+:
+ odabir ulaznog XML fajla,
+ izlazne lokacije,
+ pokretanje konverzije i statusna linija;
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+ViewOptions.h
+\family default
+ – GUI tab 
+\emph on
+Options
+\emph default
+:
+ parametri simulacije (broj test slučaja,
+ 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+,
+ trajanje,
+ max.
+\begin_inset space \space{}
+\end_inset
+
+broj iteracija) i parametri regulacije (
+\begin_inset Formula $K_{p}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $K_{i}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $T_{gov}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $P_{min}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $P_{max}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $H$
+\end_inset
+
+,
+ 
+\begin_inset Formula $D$
+\end_inset
+
+,
+ 
+\begin_inset Formula $X_{d}'$
+\end_inset
+
+);
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+TabView.h
+\family default
+,
+ 
+\family typewriter
+WindowPlugin.h
+\family default
+ – organizacija prozora i tabova (standardna natID struktura).
+ 
+\end_layout
+
+\begin_layout Standard
+Projekat se gradi CMake sistemom (
+\family typewriter
+CMakeLists.txt
+\family default
+,
+ 
+\family typewriter
+AGCPlugin.cmake
+\family default
+) koji povezuje izvorni kod sa natID bibliotekama.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% [SLIKE GUI-ja]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename konverter.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prikaz GUI-a
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename options.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Prikaz Options taba
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+XML konfiguracija generatora
+\end_layout
+
+\begin_layout Standard
+Ulazni XML fajl definiše koji generatori (po broju sabirnice) dobijaju AGC model;
+ svi nenavedeni generatori dobijaju standardni model,
+ u skladu sa specifikacijom teme.
+ Parsiranje je realizovano natID 
+\family typewriter
+xml::FileParser
+\family default
+ (DOM) parserom.
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language=XML,style=cppstyle,caption={XML konfiguracija: generatori 2 i 22 dobijaju AGC model,ostali standardni}"
+inline false
+status open
+
+\begin_layout Plain Layout
+<AGCConfig>
+\end_layout
+
+\begin_layout Plain Layout
+    <Generator id="2" type="1"/>
+\end_layout
+
+\begin_layout Plain Layout
+    <Generator id="22" type="1"/>
+\end_layout
+
+\begin_layout Plain Layout
+</AGCConfig>
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Ybus matrica – korištenje natID dense matrica
+\end_layout
+
+\begin_layout Standard
+U skladu sa zahtjevom teme,
+ admitansna matrica mreže sastavljena je korištenjem natID 
+\family typewriter
+dense::DblMatrix
+\family default
+ strukture (realni dio 
+\begin_inset Formula $G$
+\end_inset
+
+ i imaginarni dio 
+\begin_inset Formula $B$
+\end_inset
+
+ kao dvije matrice),
+ prema jednačini
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:ybus"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={C++},style=cppstyle,caption={Sastavljanje Ybus matrice korištenjem natID dense::DblMatrix}"
+inline false
+status open
+
+\begin_layout Plain Layout
+struct YbusMatrices {
+\end_layout
+
+\begin_layout Plain Layout
+    dense::DblMatrix mG;
+   // realni dio admitansne matrice
+\end_layout
+
+\begin_layout Plain Layout
+    dense::DblMatrix mB;
+   // imaginarni dio admitansne matrice
+\end_layout
+
+\begin_layout Plain Layout
+};
+\end_layout
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+static void buildYbus(YbusMatrices& ybus,
+ int nBus,
+\end_layout
+
+\begin_layout Plain Layout
+                      const LineData* lines,
+ int nLines)
+\end_layout
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\begin_layout Plain Layout
+    ybus.mG.reserve(nBus,
+ nBus,
+ nullptr,
+ true);
+\end_layout
+
+\begin_layout Plain Layout
+    ybus.mB.reserve(nBus,
+ nBus,
+ nullptr,
+ true);
+\end_layout
+
+\begin_layout Plain Layout
+    auto matG = ybus.mG.getManipulator1();
+\end_layout
+
+\begin_layout Plain Layout
+    auto matB = ybus.mB.getManipulator1();
+\end_layout
+
+\begin_layout Plain Layout
+    // ...
+ nuliranje ...
+\end_layout
+
+\begin_layout Plain Layout
+    for (int l = 0;
+ l < nLines;
+ ++l) {
+\end_layout
+
+\begin_layout Plain Layout
+        double denom = lines[l].r*lines[l].r + lines[l].x*lines[l].x;
+\end_layout
+
+\begin_layout Plain Layout
+        double g =  lines[l].r / denom;
+\end_layout
+
+\begin_layout Plain Layout
+        double b = -lines[l].x / denom;
+\end_layout
+
+\begin_layout Plain Layout
+        matG(f,
+ t) -= g;
+   matG(t,
+ f) -= g;
+\end_layout
+
+\begin_layout Plain Layout
+        matB(f,
+ t) -= b;
+   matB(t,
+ f) -= b;
+\end_layout
+
+\begin_layout Plain Layout
+        matG(f,
+ f) += g;
+   matG(t,
+ t) += g;
+\end_layout
+
+\begin_layout Plain Layout
+        matB(f,
+ f) += b + lines[l].b / 2.0;
+\end_layout
+
+\begin_layout Plain Layout
+        matB(t,
+ t) += b + lines[l].b / 2.0;
+\end_layout
+
+\begin_layout Plain Layout
+    }
+\end_layout
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Pri generisanju mrežnih jednačina u izlaznom modelu ispisuju se samo elementi matrice različiti od nule,
+ čime je iskorištena rijetkost (engl.
+ 
+\emph on
+sparsity
+\emph default
+) strukture mreže.
+\end_layout
+
+\begin_layout Subsection
+Višenitna konverzija sa indikatorom napretka
+\end_layout
+
+\begin_layout Standard
+Prema zahtjevu teme,
+ konverzija se izvršava u zasebnom threadu (thread
+\begin_inset space ~
+\end_inset
+
+1),
+ dok drugi thread (thread
+\begin_inset space ~
+\end_inset
+
+2) u realnom vremenu prati napredak konverzije preko atomarnog brojača koji konverzija ažurira po fazama:
+ učitavanje podataka (5–25%),
+ formiranje Ybus matrice (25–35%),
+ generisanje modela (35–85%),
+ generisanje grafika (85–100%).
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "language={C++},style=cppstyle,caption={Višenitna organizacija konverzije}"
+inline false
+status open
+
+\begin_layout Plain Layout
+std::atomic<int>  progress(0);
+\end_layout
+
+\begin_layout Plain Layout
+std::atomic<bool> done(false);
+\end_layout
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+// thread 2:
+ real-time pracenje progresa konverzije
+\end_layout
+
+\begin_layout Plain Layout
+std::thread progressThread([&progress,
+ &done]() {
+\end_layout
+
+\begin_layout Plain Layout
+    while (!done.load())
+\end_layout
+
+\begin_layout Plain Layout
+        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+\end_layout
+
+\begin_layout Plain Layout
+});
+\end_layout
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+// thread 1:
+ konverzija (parsiranje,
+ Ybus,
+ generisanje modela)
+\end_layout
+
+\begin_layout Plain Layout
+std::thread convThread([&]() {
+\end_layout
+
+\begin_layout Plain Layout
+    progress = 5;
+\end_layout
+
+\begin_layout Plain Layout
+    // ...
+ ucitavanje podataka,
+ Ybus,
+ generisanje .dmodl i .vmodl ...
+\end_layout
+
+\begin_layout Plain Layout
+    progress = 100;
+\end_layout
+
+\begin_layout Plain Layout
+    done = true;
+\end_layout
+
+\begin_layout Plain Layout
+});
+\end_layout
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+convThread.join();
+\end_layout
+
+\begin_layout Plain Layout
+progressThread.join();
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Testni podaci
+\end_layout
+
+\begin_layout Standard
+Podaci 
+\family typewriter
+case9
+\family default
+ mreže ugrađeni su u konvertor,
+ dok se 
+\family typewriter
+case30
+\family default
+,
+ 
+\family typewriter
+case118
+\family default
+ i 
+\family typewriter
+case300
+\family default
+ učitavaju iz CSV fajlova (sabirnice i grane) generisanih iz originalnih MATPOWER fajlova.
+ Snage u CSV fajlovima su u MW i pri učitavanju se konvertuju u p.u.
+\begin_inset space \space{}
+\end_inset
+
+(
+\begin_inset Formula $S_{b}=100$
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+MVA).
+ Za 
+\family typewriter
+case300
+\family default
+ izvršena je renumeracija sabirnica na kontinuirani opseg 1–300 (originalna MATPOWER numeracija je nekontinuirana).
+ Generatorima se smatraju PV sabirnice sa aktivnom proizvodnjom;
+ sinhroni kompenzatori (
+\begin_inset Formula $P_{g}=0$
+\end_inset
+
+) tretirani su kao PQ sabirnice.
+ Konvertor automatski prepoznaje referentnu sabirnicu (tip
+\begin_inset space ~
+\end_inset
+
+3) – npr.
+\begin_inset space \space{}
+\end_inset
+
+u 
+\family typewriter
+case118
+\family default
+ to je sabirnica
+\begin_inset space ~
+\end_inset
+
+69,
+ a ne sabirnica
+\begin_inset space ~
+\end_inset
+
+1.
+\end_layout
+
+\begin_layout Subsection
+Struktura generisanog modela
+\end_layout
+
+\begin_layout Standard
+Generisani 
+\family typewriter
+.dmodl
+\family default
+ fajl sadrži:
+ 
+\family typewriter
+Header
+\family default
+ (parametri simulacije),
+ 
+\family typewriter
+Vars
+\family default
+ (naponi 
+\begin_inset Formula $\theta_{k},V_{k}$
+\end_inset
+
+ svih sabirnica osim referentne te stanja mašina 
+\begin_inset Formula $\delta,\omega$
+\end_inset
+
+,
+ a za AGC generatore i 
+\begin_inset Formula $P_{m},x_{I},P^{lim}_{m}$
+\end_inset
+
+),
+ 
+\family typewriter
+Params
+\family default
+ (parametri mreže,
+ opterećenja i regulatora),
+ inicijalizacijski 
+\family typewriter
+SubModel
+\family default
+,
+ 
+\family typewriter
+ODEs
+\family default
+ (jednačine
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:swing"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+–
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:governor"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+),
+ 
+\family typewriter
+NLEs
+\family default
+ (jednačine
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:pbalance"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+,
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:qbalance"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+ i limiter
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:limiter"
+plural "false"
+caps "false"
+noprefix "false"
+nolink "false"
+tuple "list"
+
+\end_inset
+
+) i 
+\family typewriter
+PostProc
+\family default
+.
+ Isječak ODE dijela za AGC generator na sabirnici
+\begin_inset space ~
+\end_inset
+
+2:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+lstparams "caption={Isječak generisanog .dmodl fajla -- AGC generator na sabirnici 2},style=cppstyle"
+inline false
+status open
+
+\begin_layout Plain Layout
+ODEs:
+\end_layout
+
+\begin_layout Plain Layout
+  // --- Generator na sabirnici 2 (AGC) ---
+\end_layout
+
+\begin_layout Plain Layout
+  delta2' = (omega2 - 1.0)*oms
+\end_layout
+
+\begin_layout Plain Layout
+  omega2' = (Pml2 - (Ep2*V2/Xdp2)*sin(delta2 - th2)
+\end_layout
+
+\begin_layout Plain Layout
+             - D2*(omega2 - 1.0)) * oms / (2*H2)
+\end_layout
+
+\begin_layout Plain Layout
+  xI2'    = Ki2*(1.0 - omega2)
+\end_layout
+
+\begin_layout Plain Layout
+  Pm2'    = (Pref2 + Kp2*(1.0 - omega2) + xI2 - Pm2)/Tgov2
+\end_layout
+
+\begin_layout Plain Layout
+NLEs:
+\end_layout
+
+\begin_layout Plain Layout
+  ...
+\end_layout
+
+\begin_layout Plain Layout
+  Pml2 = lim(Pm2,
+ Pmin2,
+ Pmax2)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Uz 
+\family typewriter
+.dmodl
+\family default
+ fajl konvertor automatski generiše i 
+\family typewriter
+.vmodl
+\family default
+ fajl sa definicijama grafika (frekvencija sistema,
+ uglovi rotora,
+ AGC regulacija),
+ ograničenim na najviše 6 krivih po grafiku radi preglednosti kod velikih mreža.
+\end_layout
+
+\begin_layout Subsection
+Test poremećaj
+\end_layout
+
+\begin_layout Standard
+Za demonstraciju AGC regulacije,
+ inicijalizacijski podmodel rješava tokove snaga sa nominalnim opterećenjem,
+ dok glavni model koristi opterećenje uvećano za 10% na prvoj opterećenoj sabirnici.
+ Time se u trenutku 
+\begin_inset Formula $t=0$
+\end_inset
+
+ ostvaruje skok opterećenja na koji regulacija mora reagovati:
+ primarna zaustavlja propad frekvencije,
+ a sekundarna (AGC) je vraća na 50
+\begin_inset space ~
+\end_inset
+
+Hz.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% ============ 4.
+ REZULTATI SIMULACIJE ============
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Rezultati simulacije
+\end_layout
+
+\begin_layout Standard
+Implementirani plugin testiran je na IEEE testnim sistemima Case
+\begin_inset space ~
+\end_inset
+
+9,
+ Case
+\begin_inset space ~
+\end_inset
+
+30,
+ Case
+\begin_inset space ~
+\end_inset
+
+118 i Case
+\begin_inset space ~
+\end_inset
+
+300.
+ Za svaki testni sistem plugin uspješno generiše dinamički model;
+ za prva tri sistema dTwin solver model rješava bez grešaka,
+ a AGC regulacija vraća frekvenciju na nominalnu vrijednost.
+\end_layout
+
+\begin_layout Subsection
+IEEE Case 9
+\end_layout
+
+\begin_layout Standard
+IEEE Case
+\begin_inset space ~
+\end_inset
+
+9 je standardna testna mreža sa 9 sabirnica i 3 generatora (referentna sabirnica
+\begin_inset space ~
+\end_inset
+
+1,
+ PV generatori na sabirnicama 2 i
+\begin_inset space ~
+\end_inset
+
+3).
+ U testiranoj konfiguraciji oba PV generatora imaju AGC regulaciju.
+ Generisani model sadrži 
+\series bold
+8 diferencijalnih jednačina
+\series default
+ (po 4 za svaki AGC generator:
+ 
+\begin_inset Formula $\delta$
+\end_inset
+
+,
+ 
+\begin_inset Formula $\omega$
+\end_inset
+
+,
+ 
+\begin_inset Formula $x_{I}$
+\end_inset
+
+,
+ 
+\begin_inset Formula $P_{m}$
+\end_inset
+
+) i 
+\series bold
+18 algebarskih jednačina
+\series default
+ (bilansi P i Q za 8 sabirnica + 2 limitera).
+ Nakon skoka opterećenja frekvencija kratko propada (ispod 49
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+,
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+9
+\begin_inset space ~
+\end_inset
+
+Hz),
+ primarna regulacija zaustavlja propad,
+ a sekundarna vraća frekvenciju tačno na 50
+\begin_inset space ~
+\end_inset
+
+Hz bez trajnog odstupanja.
+ Uglovi rotora se nakon kratkog prigušenog tranzijenta stabilizuju u novoj radnoj tački.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case9frek.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 9 – frekvencija sistema:
+ propad nakon skoka opterećenja i povratak na 50
+\begin_inset space ~
+\end_inset
+
+Hz djelovanjem AGC regulacije
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case9uglovi.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 9 – uglovi rotora generatora 2 i 3
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case9reg.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 9 – mehanička snaga i integrator sekundarne regulacije
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+IEEE Case 30
+\end_layout
+
+\begin_layout Standard
+IEEE Case
+\begin_inset space ~
+\end_inset
+
+30 (30 sabirnica,
+ 41 grana) sadrži pet PV generatora na sabirnicama 2,
+ 13,
+ 22,
+ 23 i
+\begin_inset space ~
+\end_inset
+
+27.
+ U testiranoj konfiguraciji generatori 2 i
+\begin_inset space ~
+\end_inset
+
+22 imaju AGC regulaciju,
+ dok su 13,
+ 23 i
+\begin_inset space ~
+\end_inset
+
+27 standardni – čime je direktno demonstrirana specifikacija teme:
+ 
+\emph on
+navođenje generatora traženog tipa po broju,
+ dok ostali generatori dobijaju standardni model
+\emph default
+.
+ Generisani model sadrži 
+\series bold
+14 diferencijalnih
+\series default
+ i 
+\series bold
+60 algebarskih jednačina
+\series default
+.
+ Sistem je stabilan tokom cijele simulacije;
+ AGC generatori preuzimaju kompenzaciju poremećaja i vraćaju frekvenciju na nominalnu vrijednost.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case30frek.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 30 – frekvencija sistema
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case30uglovi.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 30 – uglovi rotora svih pet generatora (2 AGC + 3 standardna)
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case30reegulacija.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 30 – mehanička snaga i integrator sekundarne regulacije
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+IEEE Case 118
+\end_layout
+
+\begin_layout Standard
+IEEE Case
+\begin_inset space ~
+\end_inset
+
+118 (118 sabirnica,
+ 186 grana,
+ 18 generatora sa aktivnom proizvodnjom;
+ referentna sabirnica je 69) testiran je sa AGC regulacijom na generatorima 10 i
+\begin_inset space ~
+\end_inset
+
+12.
+ Generisani model sadrži 
+\series bold
+40 diferencijalnih
+\series default
+ i 
+\series bold
+236 algebarskih jednačina
+\series default
+.
+ Uočava se da je za isti relativni poremećaj propad frekvencije znatno manji nego kod malih mreža (oko 0
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+,
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+13
+\begin_inset space ~
+\end_inset
+
+Hz) – veći sistem posjeduje veću ekvivalentnu inerciju i krutost,
+ što je u skladu s teorijom.
+ AGC vraća frekvenciju na nominalnu vrijednost za manje od pola sekunde.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case118frek.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 118 – frekvencija sistema:
+ mali propad i brza regulacija karakteristični za velike sisteme
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case118uglovi.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 118 – uglovi rotora (prikazano 6 generatora)
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+IEEE Case 300 – diskusija ograničenja
+\end_layout
+
+\begin_layout Standard
+Konverzija 
+\family typewriter
+case300
+\family default
+ mreže (300 sabirnica,
+ 411 grana,
+ 56 generatora) uspješno se izvršava i generiše strukturno ispravan model sa 
+\series bold
+116 diferencijalnih
+\series default
+ i 
+\series bold
+600 algebarskih jednačina
+\series default
+.
+ Vremenska simulacija,
+ međutim,
+ otkriva granicu primjenjivosti klasičnog modela generatora:
+ stvarna 
+\family typewriter
+case300
+\family default
+ mreža ima izrazito neujednačen naponski profil (naponi od 0
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+,
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+80 do 1
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+,
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+09
+\begin_inset space ~
+\end_inset
+
+p.u.),
+ zbog čega pojedine mašine iz tokova snaga izlaze u podpobuđenom režimu rada,
+ na samoj granici statičke stabilnosti,
+ te tokom simulacije gube sinhronizam.
+ Vjerno modelovanje ovakvih radnih tačaka zahtijeva detaljnije modele generatora sa regulatorima pobude (AVR) i pripadajućim limiterima,
+ što prevazilazi okvir teme.
+ Konvertor pri tome u potpunosti obavlja svoju funkciju – generisani model je strukturno i numerički ispravan,
+ a ograničenje je svojstvo klasičnog modela,
+ ne implementacije.
+ 
+\begin_inset Float figure
+placement H
+alignment document
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics
+	filename case300.png
+	width 80text%
+
+\end_inset
+
+ 
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+IEEE Case 300 – uglovi rotora 
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:moj_izbor_oznake"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Diskusija rezultata
+\end_layout
+
+\begin_layout Standard
+Ključni doprinos numeričkoj robusnosti rješenja je inicijalizacijski podmodel sa tokovima snaga:
+ dinamička simulacija kreće iz tačne ravnotežne tačke,
+ pa je jedini poremećaj onaj namjerno zadan (skok opterećenja).
+ Bez ove inicijalizacije neuravnoteženi početni uslovi generišu velike debalanse snage u 
+\begin_inset Formula $t=0$
+\end_inset
+
+ i vode u numeričku divergenciju već u prvim milisekundama simulacije.
+ Rezultati na sva tri uspješno simulirana sistema pokazuju identičan kvalitativan obrazac – propad frekvencije,
+ prigušene oscilacije,
+ povratak na tačno 50
+\begin_inset space ~
+\end_inset
+
+Hz – uz kvantitativne razlike (dubina propada,
+ brzina odziva) konzistentne sa veličinom sistema.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage newpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Zaključak
+\end_layout
+
+\begin_layout Standard
+U okviru projekta razvijen je dinamički konvertor koji statičke MATPOWER podatke elektroenergetske mreže automatski pretvara u dinamičke modele sa AGC regulacijom frekvencije,
+ u obliku natID plugina (dll) sa grafičkim interfejsom,
+ XML konfiguracijom generatora,
+ višenitnom konverzijom sa indikatorom napretka i korištenjem natID dense matrica za admitansnu matricu mreže.
+ Uspješna sekundarna regulacija frekvencije demonstrirana je na testnim sistemima Case
+\begin_inset space ~
+\end_inset
+
+9,
+ Case
+\begin_inset space ~
+\end_inset
+
+30 i Case
+\begin_inset space ~
+\end_inset
+
+118:
+ nakon skoka opterećenja frekvencija se u svim slučajevima vraća tačno na nominalnih 50
+\begin_inset space ~
+\end_inset
+
+Hz,
+ čime je potvrđena ispravnost implementiranog AGC modela.
+ Za Case
+\begin_inset space ~
+\end_inset
+
+300 konverzija je uspješna,
+ a simulacija je identifikovana kao ograničenje klasičnog modela generatora u mrežama sa ekstremnim naponskim profilom.
+ Arhitektura konvertora je generička – svi algoritmi (parsiranje,
+ Ybus,
+ generisanje jednačina,
+ inicijalizacija) rade nad proizvoljnom mrežom,
+ bez posebnih slučajeva po testnom sistemu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% ============ LITERATURA ============
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "kundur"
+literal "false"
+
+\end_inset
+
+ P.
+\begin_inset space ~
+\end_inset
+
+Kundur,
+ 
+\emph on
+Power System Stability and Control
+\emph default
+,
+ McGraw-Hill,
+ 1994.
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "matpower"
+literal "false"
+
+\end_inset
+
+ R.
+\begin_inset space ~
+\end_inset
+
+D.
+\begin_inset space ~
+\end_inset
+
+Zimmerman,
+ C.
+\begin_inset space ~
+\end_inset
+
+E.
+\begin_inset space ~
+\end_inset
+
+Murillo-Sánchez,
+ 
+\emph on
+MATPOWER
+\emph default
+,
+ 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+https://github.com/MATPOWER/matpower
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "natid"
+literal "false"
+
+\end_inset
+
+ I.
+\begin_inset space ~
+\end_inset
+
+Džafić,
+ 
+\emph on
+natID biblioteka
+\emph default
+,
+ 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+https://github.com/idzafic/natID
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Bibliography
+\begin_inset CommandInset bibitem
+LatexCommand bibitem
+key "dtwin"
+literal "false"
+
+\end_inset
+
+ I.
+\begin_inset space ~
+\end_inset
+
+Džafić,
+ 
+\emph on
+dTwin – Components for digital twinning
+\emph default
+,
+ 
+\begin_inset Flex URL
+status collapsed
+
+\begin_layout Plain Layout
+https://github.com/idzafic/dTwin
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\end_body
+\end_document

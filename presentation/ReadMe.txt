@@ -1,1 +1,1 @@
-Presentation time: 5-8 minutes
+Vrijeme potrebno za prezentaciju: 7 minuta
